@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<!-- Login page for users -->
+<head>
+<link rel="stylesheet" href="{{url_for('static', filename='css/login.css')}}">
+</head>
+
+<div>
+	<div class="login-border">
+		<div class="center-page">
+			<div class="login-field">
+				<label for="username">Username</label>
+				<input type="text" name="username" class="input-field">
+			</div>
+
+			<div class="login-field">
+				<label for="password">Password</label>
+				<input type="password" name="password" class="input-field">
+			</div>
+
+			<button type="submit" name="login" value="login">Login</button>
+			<a href="/register"><button type="submit" name="register" value="register">Register</button></a>
+		</div>
+	</div>
+</div>
