@@ -1,0 +1,3 @@
+# Don't track these directories
+flask_session/
+__pycache__/
