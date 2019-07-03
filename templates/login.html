@@ -1,24 +1,34 @@
 <!DOCTYPE HTML>
 <!-- Login page for users -->
 <head>
-<link rel="stylesheet" href="{{url_for('static', filename='css/login.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/auth.css')}}">
 </head>
 
 <div>
-	<div class="login-border">
+	<div class="border">
 		<div class="center-page">
-			<div class="login-field">
+			<div class="header">
+				<span>Login</span>	
+			</div>
+			<div class="input-field">
 				<label for="username">Username</label>
-				<input type="text" name="username" class="input-field">
+				<input type="text" name="username">
 			</div>
 
-			<div class="login-field">
+			<div class="input-field">
 				<label for="password">Password</label>
-				<input type="password" name="password" class="input-field">
+				<input type="password" name="password">
 			</div>
 
-			<button type="submit" name="login" value="login">Login</button>
-			<a href="/register"><button type="submit" name="register" value="register">Register</button></a>
+			<div class="button-group">
+				<button type="submit" name="login" value="login">Login</button>
+				<a href="/register">
+					<button type="submit" 
+							name="register" 
+							value="register">Register
+					</button>
+				</a>
+			</div>
 		</div>
 	</div>
 </div>

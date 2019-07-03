@@ -1,31 +1,45 @@
 <!DOCTYPE HTML>
 <!-- This html contains template for user registration page -->
 <head>
-	<link rel="stylesheet" href="{{url_for('static', filename='css/register.css')}}">
+	<link rel="stylesheet" href="{{url_for('static', filename='css/auth.css')}}">
 	<title>Register</title>
 </head>
 
 <form action="{{url_for('register_user')}}" method="post">
-	<div class="register-border">
+	<div class="border">
 		<div class="center-page">
-			<div class="register-field">
+			<div class="header">
+				<span>Register</span>
+			</div>
+			<div class="input-field">
 				<label for="username">Username</label>
-				<input type="text" name="username" class="input-field">
+				<input type="text" name="username">
+				{% if userExists %}
+				<span class="error"> Username already exists </span>
+				{% endif %}
 			</div>
 
-			<div class="register-field">
+			<div class="input-field">
 				<label for="password">Password</label>
-				<input type="password" name="password" class="input-field">
+				<input type="password" name="password">
 			</div>
 
-			<div class="register-field">
+			<div class="input-field">
 				<label for="confirm-password">Confirm Password</label>
-				<input type="password" name="confirm-password" class="input-field">
+				<input type="password" name="confirm-password">
+				{% if unmatchedPassword %}
+				<span class="error"> Passwords do not match </span>
+				{% endif %}
 			</div>
 
-			<div class="button-group">	
+			<div class="button-group">
+				{% if not registerSuccess %}
 				<button type="submit" name="register">Register</button>
-				<a href="/login"><button type="button" name="cancel">Cancel</button></a>
+				<a href="/"><button type="button" name="cancel">Cancel</button></a>
+				{% else %}
+				<span class="success">Registered Successfully! Please login</span>
+				<a href="/"><button type="button" name="login">Login</button></a>
+				{% endif %}
 			</div>
 		</div>
 	</div>

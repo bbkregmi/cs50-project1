@@ -6,6 +6,9 @@ from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
+from scripts.password_hash import encrypt, decrypt
+from scripts.encodekey import getencodekey 
+
 app = Flask(__name__)
 
 # Check for environment variable
@@ -34,11 +37,24 @@ def register_user():
     username = request.form['username']
     password = request.form['password']
     confirmpassword = request.form['confirm-password']
-    
+
+    if password != confirmpassword:
+        return render_template("register.html", unmatchedPassword="true")
+
+    userExists = None
+    registerSuccess = None
+
     preexisting_user = db.execute("SELECT * FROM \"user\" WHERE username=:val", {'val': username}).fetchall()
     if len(preexisting_user) != 0:
-        print("User already exists!")
+        userExists = True
     else:
-        print("User does not exist")
-    return render_template('register.html')
+        key = getencodekey()
+        password_hash = encrypt(key, password)
+        query = "INSERT into \"user\"(username, password) VALUES (:username, :password)"
+        queryParams = {'username': username, 'password': password_hash}
+        db.execute(query, queryParams)
+        registerSuccess = True;
+
+    db.commit()
+    return render_template("register.html", userExists=userExists, registerSuccess=registerSuccess)
 
