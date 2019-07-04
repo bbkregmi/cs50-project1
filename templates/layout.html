@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<head>
+    {% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+    <title>{% block title %}{% endblock %} - My Webpage</title>
+    {% endblock %}
+  </head>
+  <body>
+    <div class="navbar-container">
+        <form action="{{url_for('search')}}" class="search-bar">
+            <input type="text" class="search-input" name="searchinput" placeholder="The Great Gatsby">
+            <button type="submit" class="search-btn">Search</button>
+        </form>
+        <a href="/home" class="nav-item">
+          Home
+        </a>
+				<a href="/logout" class="nav-item">
+              Logout
+				</a>
+        <span class="nav-item">Dummy text</span>
+    </div>
+    <div id="content" class="content">{% block content %}{% endblock %}</div>
+  </body>

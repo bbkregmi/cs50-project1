@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{url_for('static', filename='css/auth.css')}}">
 </head>
 
-<div>
+<form action="{{url_for('login')}}" method="post">
 	<div class="border">
 		<div class="center-page">
 			<div class="header">
@@ -20,10 +20,16 @@
 				<input type="password" name="password">
 			</div>
 
+			{% if loginFailed %}
+			<span class="error"> Failed to login </span>
+			{% elif loginFailed == False %}
+			<span class="success">Logged in successfully!</span>
+			{% endif %}
+
 			<div class="button-group">
 				<button type="submit" name="login" value="login">Login</button>
 				<a href="/register">
-					<button type="submit" 
+					<button type="button" 
 							name="register" 
 							value="register">Register
 					</button>
@@ -31,4 +37,4 @@
 			</div>
 		</div>
 	</div>
-</div>
+</form>

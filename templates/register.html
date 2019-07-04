@@ -31,7 +31,11 @@
 				<span class="error"> Passwords do not match </span>
 				{% endif %}
 			</div>
-
+			<div>
+				{% if invalidForm %}
+				<span class="error">Invalid form. Please try again</span>
+				{% endif %}
+			</div>
 			<div class="button-group">
 				{% if not registerSuccess %}
 				<button type="submit" name="register">Register</button>
