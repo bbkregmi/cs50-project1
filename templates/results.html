@@ -2,11 +2,20 @@
 {% block title %}Home{% endblock %}
 {% block head %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}">
 {% endblock %}
 {% block content %}
   <h1>Results</h1>
-  <p>
-    Welcome on my awesome homepage. {{searchval}}
-  </p>
+  {% if noMatched %}
+  <span class="no-matches-text">No matches for search</span>
+  {% else %}
+      {% for book in bookList %}
+        <div class="book-item">
+            <span class="book-title">{{book.title}}</span>
+            <span class="book-author">by {{book.author}}</span>
+            <span class="book-year-isbn">{{book.year}}</span>
+            <span class="book-year-isbn">{{book.isbn}}</span>
+          </div>
+      {% endfor %}
+  {% endif %}
 {% endblock %}

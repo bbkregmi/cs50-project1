@@ -1,0 +1,25 @@
+.no-matches-text {
+    font-style: italic;
+}
+
+.book-item {
+    border: 1px solid antiquewhite;
+    display: inline-block;
+    box-shadow: 0px 0px 1px 1px;
+    padding: 5px;
+    margin: 10px;
+}
+
+.book-title {
+    display: block;
+    font-weight: bold;
+}
+
+.book-author {
+    display: block;
+}
+
+.book-year-isbn {
+    display: block;
+    font-style: italic;
+}

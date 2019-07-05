@@ -18,10 +18,15 @@ db = scoped_session(sessionmaker(bind=engine))
 
 
 def importBooks():
-    # Check to make sure books table is empty
-    books = db.execute("SELECT * from \"books\"").fetchall()
-    if len(books) != 0:
-        raise RuntimeError("Books database already populated")
+    db.excute("DROP TABLE IF EXISTS \"books\"")
+    db.execute("CREATE TABLE \"books\"(\
+        id SERIAL PRIMARY KEY, \
+        isbn CHAR(10) NOT NULL, \
+        title VARCHAR(125) NOT NULL, \
+        author VARCHAR(125) NOT NULL, \
+        year INT, \
+        avg_review DECIMAL(2, 1), \
+        review_coun INT")
     
     queryParams = []
     with open('../books.csv', 'r') as csvfile:
@@ -35,6 +40,7 @@ def importBooks():
                 title = row[1]
                 author = row[2]
                 year = int(row[3])
+                
                 queryParam = {'isbn': isbn, 'title': title, 'author': author, 'year': year}
                 queryParams.append(queryParam) 
     query = "INSERT into \"books\"(isbn, title, author, year) VALUES(:isbn, :title, :author, :year)"

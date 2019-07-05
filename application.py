@@ -10,6 +10,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 
 from scripts.password_hash import encrypt, decrypt
 from scripts.encodekey import getencodekey 
+from models.books import Book
 
 app = Flask(__name__)
 
@@ -28,8 +29,7 @@ db = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/")
 def index():
-    sessionUser = session['username']
-    if sessionUser is None:
+    if session.get('username') is None:
         return render_template('login.html')
     else:
         return redirect(url_for('home'))
@@ -117,12 +117,34 @@ def search():
         query = escape(request.args.get('searchinput'))
     if query is None or len(query) == 0:
         redirect(url_for('home'))
-    query_string = "SELECT from \"books\" where {} LIKE '{}'"
+    print("%s" % (query))
+    query_string = "SELECT * from \"books\" where {} ILIKE '%{}%'"
     isbnQuery = query_string.format("isbn", query)
     titleQuery = query_string.format("title", query)
     authorQuery = query_string.format("author", query)
-    print("\nisbn: %s\ntitle: %s\nauthor: %s\n" % (isbnQuery, titleQuery, authorQuery))
-    return render_template("results.html", searchVal=query)
+
+    isbnMatchList = db.execute(isbnQuery).fetchall()
+    titleMatchList = db.execute(titleQuery).fetchall()
+    authorMatchList = db.execute(authorQuery).fetchall()
+
+    totalList = []
+
+    for item in isbnMatchList:
+        book = Book(item.id, item.isbn, item.title, item.author, item.year)
+        totalList.append(book)
+    for item in titleMatchList:
+        book = Book(item.id, item.isbn, item.title, item.author, item.year)
+        totalList.append(book)
+    for item in authorMatchList:
+        book = Book(item.id, item.isbn, item.title, item.author, item.year)
+        totalList.append(book)
+    uniqueList = set(totalList)
+    for book in uniqueList:
+        print("%s, %s, %s, %s, %s" % (book.id, book.isbn, book.title, book.author, book.year))
+    if len(uniqueList) == 0:
+        return render_template("results.html", noMatches=True)
+    else:
+        return render_template("results.html", bookList=uniqueList)
 
 
 @app.route("/logout")
